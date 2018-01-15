@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Pregunta(models.Model):
     enunciado = models.CharField(max_length=256)
     alternativa_correcta = models.CharField(max_length=256)
