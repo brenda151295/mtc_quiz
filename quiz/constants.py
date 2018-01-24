@@ -16,6 +16,8 @@ ALTERNATIVAS = (
     ('d', '4'),
 )
 
+ALTERNATIVA_CORRECTA = dict(ALTERNATIVAS)
+
 CONVERT = {
 	'Reglamento de Tránsito y Manual de Dispositivos de Control de Tránsito' : 'T1',
 	'Mercancías peligrosas' : 'T2',
