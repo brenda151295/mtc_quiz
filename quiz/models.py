@@ -19,3 +19,10 @@ class Pregunta(models.Model):
     imagen_alternativa_4 = models.ImageField(upload_to='alternativas', null=True, blank=True);
 
     alternativa_correcta = models.CharField(max_length=1, choices=constants.ALTERNATIVAS)
+
+    categoria_AI = models.BooleanField(default = False)
+    categoria_AIIA = models.BooleanField(default = False)
+    categoria_AIIB = models.BooleanField(default = False)
+    categoria_AIIIA = models.BooleanField(default = False)
+    categoria_AIIIB = models.BooleanField(default = False)
+    categoria_AIIIC = models.BooleanField(default = False)

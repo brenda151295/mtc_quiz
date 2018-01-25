@@ -3,7 +3,7 @@
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
-          <h3 class="masthead-brand">Exámen de Reglas - MTC</h3>
+          <h3 class="masthead-brand">Examen de Reglas - MTC</h3>
         </div>
       </header>
 
@@ -24,7 +24,9 @@
           {% csrf_token %}
           <input type="hidden" name="id" value="{{ pregunta.id }}">
           <h1 class="cover-heading">Pregunta {{pregunta.id}}: {{pregunta.enunciado}}</h1>
-          
+          {% if pregunta.imagen_enunciado%}
+            <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_enunciado}}">
+          {% endif %}
           <div 
             {% if es_correcta and alternativa_correcta == "1" %}
               class="form-check is_correct">
@@ -33,7 +35,13 @@
               class="form-check"  >
               <input class = "form-check-input" value="1" name="alternativa" type="radio" id="radio1">
             {% endif%}
-            <label class = "form-check-label" for="radio1">{{pregunta.alternativa_1}}</label>
+            <label class = "form-check-label" for="radio1">
+              {% if pregunta.imagen_alternativa_1 %}
+                <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_alternativa_1}}">
+              {% else %}
+                {{pregunta.alternativa_1}}    
+              {% endif %}
+            </label>
           </div>
           
           <div            
@@ -44,7 +52,13 @@
               class="form-check">
               <input class = "form-check-input" value="2" name="alternativa" type="radio" id="radio2">
             {% endif%}
-              <label class = "form-check-label" for="radio2">{{pregunta.alternativa_2}}</label>
+              <label class = "form-check-label" for="radio2">
+                {% if pregunta.imagen_alternativa_2 %}
+                  <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_alternativa_2}}">
+                {% else %}
+                  {{pregunta.alternativa_2}}    
+                {% endif %}
+              </label>
           </div>
 
           <div 
@@ -56,7 +70,14 @@
               <input class = "form-check-input" value="3" name="alternativa" type="radio" id="radio3" >
             {% endif%}
               
-              <label class = "form-check-label" for="radio3">{{pregunta.alternativa_3}}</label>
+              <label class = "form-check-label" for="radio3">
+                {% if pregunta.imagen_alternativa_3 %}
+                  <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_alternativa_3}}">
+                {% else %}
+                  {{pregunta.alternativa_3}}    
+                {% endif %}
+
+              </label>
               <div class="valid-feedback">
                 Looks good!
               </div>
@@ -70,7 +91,13 @@
               class="form-check">
               <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" >
             {% endif%}
-              <label class = "form-check-label" for="radio4">{{pregunta.alternativa_4}}</label>
+              <label class = "form-check-label" for="radio4">
+                {% if pregunta.imagen_alternativa_4 %}
+                  <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_alternativa_4}}">
+                {% else %}
+                  {{pregunta.alternativa_4}}    
+                {% endif %}
+              </label>
           </div>
           {% if es_correcta %}
             <input type="hidden" name="siguiente" value="{{ pregunta.id }}">
