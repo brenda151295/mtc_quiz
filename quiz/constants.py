@@ -27,3 +27,5 @@ CONVERT = {
     'Regulación de actividad de transporte' : 'T6',
     'Mecánica avanzada para la conducción' : 'T7',
 }
+
+GENERATORS = {}
