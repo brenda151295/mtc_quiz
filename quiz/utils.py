@@ -23,13 +23,14 @@ def cargar_excel(ruta):
         categoria = "categoria_" + limpiar_string(sheet.cell_value(row, 2))
         tema = limpiar_string(sheet.cell_value(row, 3))
         enunciado = limpiar_enunciado(sheet.cell_value(row, 4))
+        alternativa_1 = limpiar_alternativa(sheet.cell_value(row, 5))
         print ('ENUNCIADO: ',enunciado)
-        ocurrencia = Pregunta.objects.filter(enunciado=enunciado).first()
+        ocurrencia = Pregunta.objects.filter(enunciado=enunciado, alternativa_1=alternativa_1).first()
         if ocurrencia is None:
             pregunta = {
                 'tema' : constants.CONVERT.get(tema),
                 'enunciado' : enunciado,
-                'alternativa_1' : limpiar_alternativa(sheet.cell_value(row, 5)),
+                'alternativa_1' : alternativa_1,
                 'alternativa_2' : limpiar_alternativa(sheet.cell_value(row, 6)),
                 'alternativa_3' : limpiar_alternativa(sheet.cell_value(row, 7)),
                 'alternativa_4' : limpiar_alternativa(sheet.cell_value(row, 8)),
