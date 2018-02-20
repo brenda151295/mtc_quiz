@@ -20,7 +20,7 @@
           </div>
 
         {%endif%}
-        <form class = "question" method="POST" action="{% url 'basico'%}" novalidate>
+        <form class = "question" method="POST" action="{% url 'basico'%}?categoria={{categoria}}" novalidate>
           {% csrf_token %}
           <input type="hidden" name="id" value="{{ pregunta.id }}">
           <h1 class="cover-heading">Pregunta {{pregunta.id}}: {{pregunta.enunciado}}</h1>

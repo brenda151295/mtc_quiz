@@ -29,3 +29,5 @@ CONVERT = {
 }
 
 GENERATORS = {}
+EXAMEN = []
+TIEMPO_EXAMEN = None

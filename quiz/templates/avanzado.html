@@ -4,27 +4,16 @@
       <header class="masthead mb-auto">
         <div class="inner">
           <h3 class="masthead-brand">Examen de Reglas - MTC</h3>
+          <p id="clock"></p>
         </div>
       </header>
 
       <main role="main" class="inner cover">
-        {% if es_correcta == None %}
-        {% elif es_correcta%}
-          <div class="alert alert-success" role="alert">
-            La alternativa seleccionada es correcta.
-          </div>
-        
-        {% else %}  
-          <div class="alert alert-danger" role="alert">
-           La alternativa seleccionada es incorrecta, la respuesta correcta es la <span style= " text-transform: uppercase;">{{alternativa_correcta_letra}}</span>.
-          </div>
-
-        {%endif%}
-        <form class = "question" method="POST" action="{% url 'intermedio'%}?categoria={{categoria}}" novalidate>
+        <form id="avanzado_form" class = "question" method="POST" action="{% url 'avanzado'%}?categoria={{categoria}}" novalidate>
           {% csrf_token %}
           <input type="hidden" name="id" value="{{ pregunta.id }}">
           <h1 class="cover-heading">Pregunta {{pregunta.id}} {{pregunta.enunciado}}</h1>
-          {% if pregunta.imagen_enunciado%}
+          {% if pregunta.imagen_enunciado%}9
             <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_enunciado}}">
           {% endif %}
           <div 
@@ -107,13 +96,6 @@
                 {% endif %}
               </label>
           </div>
-          
-          {% if respondida%}
-            <input type="hidden" name="siguiente" value="{{ pregunta.id }}">
-            <input class="btn btn-primary btn-block" type="submit" value="Siguiente">
-          {% else %}
-            <input class="btn btn-primary btn-block" type="submit" value="Corregir">
-          {% endif %}
         </form>
       </main>
 
@@ -123,4 +105,40 @@
         </div>
       </footer>
     </div>
+    <form id="estadisticas_form" class = "question" method="POST" action="{% url 'estadisticas'%}?categoria={{categoria}}" novalidate>
+    {% csrf_token %}
+    </form>
+
+    <script type="text/javascript">
+      $(function() {
+        var TIEMPO = new Date("{{ tiempo }}");
+        console.log(TIEMPO);
+        $('#avanzado_form input').on('change', function() {
+          $('#avanzado_form').submit();
+        });
+        var myVar = setInterval(myTimer, 1000);
+        myTimer();
+        function myTimer() {
+            var ahora = new Date();
+            var diferencia = TIEMPO - ahora;
+            var total_time = Math.ceil(diferencia / 1000);
+            var minutos = Math.floor(total_time/60);
+            var segundos = total_time%60;
+            if(minutos==0 && segundos==0){
+               $('#estadisticas_form').submit(); 
+               return;
+            }
+            if (minutos<10){
+              minutos = "0" + minutos;
+            }
+            if(segundos<10){
+              segundos = "0" + segundos;
+            }
+            var reloj = minutos + ":" + segundos;
+            document.getElementById("clock").innerHTML = reloj;
+        }
+      });
+
+    </script>
+
 {% endblock %}
