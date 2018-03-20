@@ -1,21 +1,17 @@
 {% extends 'base.html' %}
 {% block 'body' %}
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner">
-          <h3 class="masthead-brand">Examen de Reglas - MTC</h3>
-        </div>
-      </header>
 
-      <main role="main" class="inner cover">
-          <a href="{% url 'avanzado'%}?categoria={{ categoria }}" class="btn btn-lg btn-secondary">INICIAR</a>
-        </p>
-      </main>
 
-      <footer class="mastfoot mt-auto">
-        <div class="inner">
-          <p>Examen de Manejo hecho por <a href="https://twitter.com/mdo">SOLBER</a>.</p>
-        </div>
-      </footer>
+<main role="main" class="inner cover" id="body">
+  <div class="container pregunta-container">
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2">
+          <h3 class="masthead-brand">Nivel Avanzado</h3>
+          <p>Usted tendrá 40 minutos para resolver este examen, cuando este listo presione INICIAR.</p>
+      </div>
     </div>
+  </div>
+ <a href="{% url 'avanzado'%}?categoria={{ categoria }}" class="btn btn-lg btn-secondary">INICIAR</a>
+</main>
+
 {% endblock %}

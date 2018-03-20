@@ -1,18 +1,16 @@
-{% extends 'base.html' %}
+  {% extends 'base.html' %}
 {% block 'body' %}
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner">
-          <h3 class="masthead-brand">Examen de Reglas - MTC</h3>
-          <p id="clock"></p>
-        </div>
-      </header>
-
-      <main role="main" class="inner cover">
+<div class="clock">
+<p id="clock"></p>
+</div>
+<main role="main" class="inner cover" id="body">
+  <div class="container pregunta-container">
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2">
         <form id="avanzado_form" class = "question" method="POST" action="{% url 'avanzado'%}?categoria={{categoria}}" novalidate>
           {% csrf_token %}
           <input type="hidden" name="id" value="{{ pregunta.id }}">
-          <h1 class="cover-heading">Pregunta {{pregunta.id}} {{pregunta.enunciado}}</h1>
+          <h1 class="cover-heading">Pregunta {{ numero }}: {{pregunta.enunciado}}</h1>
           {% if pregunta.imagen_enunciado%}9
             <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_enunciado}}">
           {% endif %}
@@ -97,14 +95,10 @@
               </label>
           </div>
         </form>
-      </main>
-
-      <footer class="mastfoot mt-auto">
-        <div class="inner">
-          <p>Examen de Manejo hecho por <a href="https://twitter.com/mdo">SOLBER</a>.</p>
-        </div>
-      </footer>
     </div>
+  </div>  
+</div>
+      </main>
     <form id="estadisticas_form" class = "question" method="POST" action="{% url 'estadisticas'%}?categoria={{categoria}}" novalidate>
     {% csrf_token %}
     </form>

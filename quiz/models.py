@@ -25,4 +25,7 @@ class Pregunta(models.Model):
     categoria_AIIB = models.BooleanField(default = False)
     categoria_AIIIA = models.BooleanField(default = False)
     categoria_AIIIB = models.BooleanField(default = False)
-    categoria_AIIIC = models.BooleanField(default = False)
+    categoria_AIIIC = models.BooleanField(default = False)  
+
+    def __unicode__(self):
+        return enunciado

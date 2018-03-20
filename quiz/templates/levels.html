@@ -1,24 +1,37 @@
 {% extends 'base.html' %}
 {% block 'body' %}
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner">
-          <h3 class="masthead-brand">Examen de Reglas - MTC</h3>
+    <main role="main" class="container">
+      <div style = "display:none !important" class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <div class="lh-100">
+          <h6 class="mb-0 text-white lh-100">Bootstrap</h6>
+          <small>Since 2011</small>
         </div>
-      </header>
-
-      <main role="main" class="inner cover">
-        <h1 class="cover-heading">Escoge el nivel de dificultad:</h1>
-          <a href="{% url 'basico'%}?categoria={{ categoria }}" class="btn btn-lg btn-secondary">Básico</a>
-          <a href="{% url 'intermedio'%}?categoria={{ categoria }}" class="btn btn-lg btn-secondary">Intermedio</a>
-          <a href="{% url 'previo_avanzado'%}?categoria={{ categoria }}" class="btn btn-lg btn-secondary">Avanzado</a>
-        </p>
-      </main>
-
-      <footer class="mastfoot mt-auto">
-        <div class="inner">
-          <p>Examen de Manejo hecho por <a href="https://twitter.com/mdo">SOLBER</a>.</p>
+      </div>
+      <div class="my-3 p-3 bg-white rounded box-shadow">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Escoge un nivel: </h6>
+        <div class="media text-muted pt-3">
+          <a href="{% url 'basico'%}?categoria={{ categoria }}" class="btn btn-sm btn-secondary list-category-btn" >B</a>
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark list-category"><a class = "list-category-link" href="{% url 'basico'%}?categoria={{ categoria }}">Nivel Básico</a></strong>
+            </div>
+          </div>
         </div>
-      </footer>
-    </div>
+        <div class="media text-muted pt-3">
+          <a href="{% url 'intermedio'%}?categoria={{ categoria }}" class="btn btn-sm btn-secondary list-category-btn" >I</a>
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark list-category"><a class = "list-category-link" href="{% url 'intermedio'%}?categoria={{ categoria }}">Nivel Intermedio</a></strong>
+            </div>
+          </div>
+        </div>
+        <div class="media text-muted pt-3">
+          <a href="{% url 'previo_avanzado'%}?categoria={{ categoria }}" class="btn btn-sm btn-secondary list-category-btn" >A</a>
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark list-category"><a class = "list-category-link" href="{% url 'previo_avanzado'%}?categoria={{ categoria }}">Nivel Avanzado</a></strong>
+            </div>
+          </div>
+        </div>
+   </main>
 {% endblock %}

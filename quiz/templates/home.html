@@ -1,27 +1,62 @@
 {% extends 'base.html' %}
 {% block 'body' %}
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner">
-          <h3 class="masthead-brand">Examen de Reglas - MTC</h3>
+    <main role="main" class="container">
+      <div style = "display:none !important" class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <img class="mr-3" src="./Offcanvas template for Bootstrap_files/bootstrap-outline.svg" alt="" width="48" height="48">
+        <div class="lh-100">
+          <h6 class="mb-0 text-white lh-100">Bootstrap</h6>
+          <small>Since 2011</small>
         </div>
-      </header>
-
-      <main role="main" class="inner cover">
-        <h1 class="cover-heading">Escoge tu categoría:</h1>
-          <a href="{% url 'levels'%}?categoria=AI" class="btn btn-lg btn-secondary">AI</a>
-          <a href="{% url 'levels'%}?categoria=AIIA" class="btn btn-lg btn-secondary">AIIA</a>
-          <a href="{% url 'levels'%}?categoria=AIIB" class="btn btn-lg btn-secondary">AIIB</a>
-          <a href="{% url 'levels'%}?categoria=AIIIA" class="btn btn-lg btn-secondary">AIIIA</a>
-          <a href="{% url 'levels'%}?categoria=AIIIB" class="btn btn-lg btn-secondary">AIIIB</a>
-          <a href="{% url 'levels'%}?categoria=AIIIC" class="btn btn-lg btn-secondary">AIIIC</a>
-        </p>
-      </main>
-
-      <footer class="mastfoot mt-auto">
-        <div class="inner">
-          <p>Examen de Manejo hecho por <a href="https://twitter.com/mdo">SOLBER</a>.</p>
+      </div>
+      <div class="my-3 p-3 bg-white rounded box-shadow">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Escoge tu categoría:</h6>
+        <div class="media text-muted pt-3">
+          <a href="{% url 'levels'%}?categoria=AI" class="btn btn-sm btn-secondary list-category-btn" >AI</a>
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark list-category"><a class = "list-category-link" href="{% url 'levels'%}?categoria=AI">Categoria AI</a></strong>
+            </div>
+          </div>
         </div>
-      </footer>
-    </div>
+        <div class="media text-muted pt-3">
+          <a href="{% url 'levels'%}?categoria=AIIA" class="btn btn-sm btn-secondary list-category-btn" >AIIA</a>
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark list-category"><a class = "list-category-link" href="{% url 'levels'%}?categoria=AI">Categoria AIIA</a></strong>
+            </div>
+          </div>
+        </div>
+        <div class="media text-muted pt-3">
+          <a href="{% url 'levels'%}?categoria=AIIB" class="btn btn-sm btn-secondary list-category-btn" >AIIB</a>
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark list-category"><a class = "list-category-link" href="{% url 'levels'%}?categoria=AI">Categoria AIIB</a></strong>
+            </div>
+          </div>
+        </div>
+        <div class="media text-muted pt-3">
+          <a href="{% url 'levels'%}?categoria=AIIIA" class="btn btn-sm btn-secondary list-category-btn" >AIIIA</a>
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark list-category"><a class = "list-category-link" href="{% url 'levels'%}?categoria=AI">Categoria AIIIA</a></strong>
+            </div>
+          </div>
+        </div>
+        <div class="media text-muted pt-3">
+          <a href="{% url 'levels'%}?categoria=AIIIB" class="btn btn-sm btn-secondary list-category-btn" >AIIIB</a>
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark list-category"><a class = "list-category-link" href="{% url 'levels'%}?categoria=AI">Categoria AIIIB</a></strong>
+            </div>
+          </div>
+        </div>
+        <div class="media text-muted pt-3">
+          <a href="{% url 'levels'%}?categoria=AIIIC" class="btn btn-sm btn-secondary list-category-btn" >AIIIC</a>
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark list-category"><a class = "list-category-link" href="{% url 'levels'%}?categoria=AI">Categoria AIIIC</a></strong>
+            </div>
+          </div>
+        </div>
+   </main>
 {% endblock %}
