@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block 'body' %}
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="row">
+      <div class="col-sm-4 offset-sm-4">
+      <h3 class="masthead-brand">Examen de Reglas - MTC</h3>
+      </div>
+    </div>
+  </header>
+
+  <main role="main" class="inner cover">
+    <div class="container ">
+      <div class="row">
+        <div class="col-sm-4 offset-sm-4 message-container" id="resultado">
+          <h3 class="aprobar">ACABASTE LA PRUEBA!</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 offset-sm-2" id="resultado">
+          <h5>Acertadas en:</h5>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 offset-sm-2">
+          <table class="table" id="results">
+            <thead>
+              <tr>
+                <th scope="col">1 intento</th>
+                <th scope="col">2 intentos</th>
+                <th scope="col">3 intentos</th>
+                <th scope="col">4 intentos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ intentos.1 }}{% if not intentos.1 %}-{% endif %}</td>
+                <td>{{ intentos.2 }}{% if not intentos.2 %}-{% endif %}</td>
+                <td>{{ intentos.3 }}{% if not intentos.3 %}-{% endif %}</td>
+                <td>{{ intentos.4 }}{% if not intentos.4 %}-{% endif %}</td>
+              </tr>
+            </tbody>
+          </table>  
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}	

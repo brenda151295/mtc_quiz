@@ -1,7 +1,7 @@
-
 from random import shuffle
 from datetime import datetime
 from datetime import timedelta
+from collections import Counter
 
 
 from django.shortcuts import render, get_object_or_404
@@ -22,7 +22,7 @@ def levels(request):
     return render(request, 'levels.html', context)
 
 
-def get_preguntas(categoria, limite = None):
+def get_preguntas(categoria, limite=None):
     var = 'categoria_' + categoria
     params = {
         var: True
@@ -50,16 +50,21 @@ def pregunta_siguiente(funcion):
             constants.GENERATORS[args[0]] = get_preguntas(args[0], limite)
         return funcion(*args)
 
-    return wrapper  
+    return wrapper
+
 
 def resetear_generator(categoria, limite=None):
     constants.GENERATORS[categoria] = get_preguntas(categoria, limite)
 
+
 def resetear_examen():
     constants.EXAMEN = []
 
+
 def guardar_pregunta(pregunta, alternativa_correcta, alternativa_seleccionada):
-    constants.EXAMEN.append([pregunta, alternativa_correcta, alternativa_seleccionada])
+    constants.EXAMEN.append(
+        [pregunta, alternativa_correcta, alternativa_seleccionada])
+
 
 @pregunta_siguiente
 def pregunta_random(categoria, limite=None):
@@ -70,19 +75,20 @@ def pregunta_random(categoria, limite=None):
         resetear_generator(categoria)
         return None
 
-        
+
+def guardar_data(id_pregunta):
+    counter = constants.EXAMEN_DATA.get(id_pregunta, 0)
+    constants.EXAMEN_DATA[id_pregunta] = counter + 1
+
+
 def basico(request):
-    print ("-------------------------------")
-    print (request.GET)
-    print (request.POST)
-    print ("-------------------------------")
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
         resetear_generator(categoria)
         resetear_examen()
         pregunta = pregunta_random(categoria)
         context = {
-            'numero': len(constants.EXAMEN)+1,
+            'numero': len(constants.EXAMEN) + 1,
             'categoria': categoria,
             'pregunta': pregunta
         }
@@ -96,9 +102,13 @@ def basico(request):
                 pregunta.alternativa_correcta)
             es_correcta = alternativa_correcta == alternativa_seleccionada
             if es_correcta:
-                guardar_pregunta(pregunta, alternativa_correcta, alternativa_seleccionada)
+                guardar_pregunta(
+                    pregunta, alternativa_correcta, alternativa_seleccionada)
+            guardar_data(id_pregunta)
             context = {
-                'numero': len(constants.EXAMEN)+1 if not es_correcta else len(constants.EXAMEN),
+                'numero': (
+                    len(constants.EXAMEN) + 1
+                    if not es_correcta else len(constants.EXAMEN)),
                 'es_correcta': es_correcta,
                 'alternativa_correcta': alternativa_correcta,
                 'categoria': categoria,
@@ -106,13 +116,16 @@ def basico(request):
             }
         else:
             pregunta = pregunta_random(categoria)
-            context = { 
-                'numero': len(constants.EXAMEN)+1,
+            context = {
+                'numero': len(constants.EXAMEN) + 1,
                 'categoria': categoria,
                 'pregunta': pregunta
             }
             if pregunta is None:
-                return render(request, 'estadisticas.html', context)
+                context['intentos'] = dict(
+                    Counter(constants.EXAMEN_DATA.values()))
+                constants.EXAMEN_DATA = {}
+                return render(request, 'estadisticas_basico.html', context)
 
     return render(request, 'basico.html', context)
 
@@ -131,11 +144,11 @@ def obtener_puntaje():
 def intermedio(request):
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
-        resetear_generator(categoria, constants.NUM_PREGUNTAS) 
-        resetear_examen()  
+        resetear_generator(categoria, constants.NUM_PREGUNTAS)
+        resetear_examen()
         pregunta = pregunta_random(categoria, constants.NUM_PREGUNTAS)
         context = {
-            'numero': len(constants.EXAMEN)+1,
+            'numero': len(constants.EXAMEN) + 1,
             'categoria': categoria,
             'pregunta': pregunta
         }
@@ -145,36 +158,39 @@ def intermedio(request):
             id_pregunta = request.POST.get('id')
             alternativa_seleccionada = request.POST.get('alternativa')
             pregunta = get_object_or_404(Pregunta, pk=id_pregunta)
-            alternativa_correcta = constants.ALTERNATIVA_CORRECTA.get(pregunta.alternativa_correcta)
+            alternativa_correcta = constants.ALTERNATIVA_CORRECTA.get(
+                pregunta.alternativa_correcta)
             es_correcta = alternativa_correcta == alternativa_seleccionada
-            guardar_pregunta(pregunta, alternativa_correcta, alternativa_seleccionada)
+            guardar_pregunta(
+                pregunta, alternativa_correcta, alternativa_seleccionada)
             context = {
                 'numero': len(constants.EXAMEN),
-                'es_correcta' : es_correcta,
-                'alternativa_correcta' : alternativa_correcta,
-                'alternativa_correcta_letra' : pregunta.alternativa_correcta,
+                'es_correcta': es_correcta,
+                'alternativa_correcta': alternativa_correcta,
+                'alternativa_correcta_letra': pregunta.alternativa_correcta,
                 'categoria': categoria,
                 'pregunta': pregunta,
                 'respondida': True,
-                'alternativa_seleccionada':alternativa_seleccionada,
-            }   
+                'alternativa_seleccionada': alternativa_seleccionada,
+            }
         else:
             pregunta = pregunta_random(categoria, constants.NUM_PREGUNTAS)
             puntaje_correcto, puntaje_incorrecto = obtener_puntaje()
             aprobar = puntaje_correcto >= constants.NUM_PREGUNTAS_APROBAR
             if pregunta is None:
                 context = {
-                    'examen': enumerate(constants.EXAMEN,1),
+                    'examen': enumerate(constants.EXAMEN, 1),
                     'puntaje_correcto': puntaje_correcto,
                     'puntaje_incorrecto': puntaje_incorrecto,
                     'total_preguntas': constants.NUM_PREGUNTAS,
                     'preguntas_respondidas': len(constants.EXAMEN),
-                    'preguntas_no_respondidas': constants.NUM_PREGUNTAS - len(constants.EXAMEN),
+                    'preguntas_no_respondidas': (
+                        constants.NUM_PREGUNTAS - len(constants.EXAMEN)),
                     'aprobo': aprobar
                 }
                 return render(request, 'estadisticas.html', context)
             context = {
-                'numero': len(constants.EXAMEN)+1,
+                'numero': len(constants.EXAMEN) + 1,
                 'categoria': categoria,
                 'pregunta': pregunta,
                 'respondida': False
@@ -192,21 +208,20 @@ def previo_avanzado(request):
 
 
 def obtener_tiempo():
-    return constants.TIEMPO_EXAMEN.isoformat()      
+    return constants.TIEMPO_EXAMEN.isoformat()
 
 
 def avanzado(request):
-    
-    #Fixme: cuando se caba el tiempo no da resultados
+    # FIXME: cuando se caba el tiempo no da resultados
 
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
-        resetear_generator(categoria, constants.NUM_PREGUNTAS) 
-        resetear_examen() 
-        constants.TIEMPO_EXAMEN = datetime.now() + timedelta(seconds = 100)
+        resetear_generator(categoria, constants.NUM_PREGUNTAS)
+        resetear_examen()
+        constants.TIEMPO_EXAMEN = datetime.now() + timedelta(seconds=100)
         pregunta = pregunta_random(categoria, constants.NUM_PREGUNTAS)
         context = {
-            'numero': len(constants.EXAMEN)+1,
+            'numero': len(constants.EXAMEN) + 1,
             'categoria': categoria,
             'pregunta': pregunta,
             'tiempo': obtener_tiempo()
@@ -215,32 +230,34 @@ def avanzado(request):
         id_pregunta = request.POST.get('id')
         alternativa_seleccionada = request.POST.get('alternativa')
         pregunta = get_object_or_404(Pregunta, pk=id_pregunta)
-        alternativa_correcta = constants.ALTERNATIVA_CORRECTA.get(pregunta.alternativa_correcta)
-        es_correcta = alternativa_correcta == alternativa_seleccionada
-        guardar_pregunta(pregunta, alternativa_correcta, alternativa_seleccionada)
-        
+        alternativa_correcta = constants.ALTERNATIVA_CORRECTA.get(
+            pregunta.alternativa_correcta)
+        guardar_pregunta(
+            pregunta, alternativa_correcta, alternativa_seleccionada)
+
         pregunta = pregunta_random(categoria, constants.NUM_PREGUNTAS)
 
         context = {
-            'numero': len(constants.EXAMEN)+1,
+            'numero': len(constants.EXAMEN) + 1,
             'categoria': categoria,
             'pregunta': pregunta,
             'respondida': False,
             'tiempo': obtener_tiempo()
         }
-        if len (constants.EXAMEN) == constants.NUM_PREGUNTAS:
+        if len(constants.EXAMEN) == constants.NUM_PREGUNTAS:
             puntaje_correcto, puntaje_incorrecto = obtener_puntaje()
             aprobar = puntaje_correcto >= constants.NUM_PREGUNTAS_APROBAR
             context = {
-                'examen': enumerate(constants.EXAMEN,1),
+                'examen': enumerate(constants.EXAMEN, 1),
                 'puntaje_correcto': puntaje_correcto,
                 'puntaje_incorrecto': puntaje_incorrecto,
                 'total_preguntas': constants.NUM_PREGUNTAS,
                 'preguntas_respondidas': len(constants.EXAMEN),
-                'preguntas_no_respondidas': constants.NUM_PREGUNTAS - len(constants.EXAMEN),
+                'preguntas_no_respondidas': (
+                    constants.NUM_PREGUNTAS - len(constants.EXAMEN)),
                 'aprobo': aprobar
             }
-            return render(request, 'estadisticas.html', context)        
+            return render(request, 'estadisticas.html', context)
 
     return render(request, 'avanzado.html', context)
 
@@ -249,12 +266,13 @@ def estadisticas(request):
     puntaje_correcto, puntaje_incorrecto = obtener_puntaje()
     aprobar = puntaje_correcto >= constants.NUM_PREGUNTAS_APROBAR
     context = {
-        'examen': enumerate(constants.EXAMEN,1),
+        'examen': enumerate(constants.EXAMEN, 1),
         'puntaje_correcto': puntaje_correcto,
         'puntaje_incorrecto': puntaje_incorrecto,
         'total_preguntas': constants.NUM_PREGUNTAS,
         'preguntas_respondidas': len(constants.EXAMEN),
-        'preguntas_no_respondidas': constants.NUM_PREGUNTAS - len(constants.EXAMEN),
+        'preguntas_no_respondidas': (
+            constants.NUM_PREGUNTAS - len(constants.EXAMEN)),
         'aprobo': aprobar
     }
     return render(request, 'estadisticas.html', context)

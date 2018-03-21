@@ -196,5 +196,9 @@ CUSTOM
 }
 
 .clock {
-    margin-left : 400px;
+  margin-left : 400px;
+}
+
+.message-container {
+  text-align: center;
 }
