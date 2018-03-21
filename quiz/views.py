@@ -71,7 +71,6 @@ def pregunta_random(categoria, limite=None):
         return None
 
         
-
 def basico(request):
     print ("-------------------------------")
     print (request.GET)
@@ -107,13 +106,13 @@ def basico(request):
             }
         else:
             pregunta = pregunta_random(categoria)
-            if pregunta is None:
-                return render(request, 'estadisticas.html')
             context = { 
                 'numero': len(constants.EXAMEN)+1,
                 'categoria': categoria,
                 'pregunta': pregunta
             }
+            if pregunta is None:
+                return render(request, 'estadisticas.html', context)
 
     return render(request, 'basico.html', context)
 
