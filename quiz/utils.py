@@ -84,11 +84,11 @@ def generar_reporte(path, categoria):
     for idx_row, pregunta in enumerate(
         Pregunta.objects.filter(**query_filter), 1
     ):
-        tema = constants.TEMAS_MAPPING.get(pregunta.tema)
+        tema = constants.TEMAS_MAPPING.get(pregunta.tema, '-')
         alternativa_correcta = constants.ALTERNATIVA_CORRECTA.get(
-            pregunta.alternativa_correcta)
+            pregunta.alternativa_correcta, '-')
         alternativa_correcta = getattr(
-            pregunta, 'alternativa_' + alternativa_correcta, None)
+            pregunta, 'alternativa_' + alternativa_correcta, '-')
 
         worksheet.write(idx_row, 0, tema)
         worksheet.write(idx_row, 1, pregunta.enunciado)
