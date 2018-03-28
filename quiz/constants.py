@@ -8,6 +8,8 @@ TEMAS = (
     ('T7', 'Mecánica avanzada para la conducción'),
 )
 
+TEMAS_MAPPING = dict(TEMAS)
+
 
 ALTERNATIVAS = (
     ('a', '1'),
@@ -19,8 +21,8 @@ ALTERNATIVAS = (
 ALTERNATIVA_CORRECTA = dict(ALTERNATIVAS)
 
 CONVERT = {
-	'Reglamento de Tránsito y Manual de Dispositivos de Control de Tránsito' : 'T1',
-	'Mercancías peligrosas' : 'T2',
+    'Reglamento de Tránsito y Manual de Dispositivos de Control de Tránsito' : 'T1',
+    'Mercancías peligrosas' : 'T2',
     'Reglamento Nacional de Vehículos' : 'T3',
     'Funcionamiento del Sistema Nacional de Emisión de Licencias de Conducir' : 'T4',
     'Mecánica para la conducción' : 'T5',
