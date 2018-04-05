@@ -1,0 +1,20 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+
+[packages]
+
+django = "*"
+gunicorn = "*"
+django-heroku = "*"
+pillow = "5.0.0"
+pytz = "2017.3"
+xlrd = "1.1.0"
+XlsxWriter = "1.0.2"
+
+
+[requires]
+
+python_version = "3.6"
