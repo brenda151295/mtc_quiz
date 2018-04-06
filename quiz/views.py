@@ -1,8 +1,9 @@
 from random import getrandbits, shuffle
 from datetime import datetime
-from datetime import timedelta
+from datetime import timedelta, timezone
 from collections import Counter
 
+import pytz
 
 from django.shortcuts import render, get_object_or_404
 
@@ -257,7 +258,9 @@ def avanzado(request):
     if request.method == 'GET':
         resetear_generator(request, categoria, constants.NUM_PREGUNTAS)
         resetear_examen(request)
-        get_session_data(request)['TIEMPO_EXAMEN'] = datetime.now() + timedelta(seconds=100)
+        get_session_data(request)['TIEMPO_EXAMEN'] = (
+            datetime.now(pytz.utc) + timedelta(seconds=2400)
+        )
         pregunta = pregunta_random(request, categoria, constants.NUM_PREGUNTAS)
         context = {
             'numero': len(get_session_data(request)['EXAMEN']) + 1,
