@@ -5,13 +5,13 @@ class Pregunta(models.Model):
 
     tema = models.CharField(max_length=4, choices=constants.TEMAS)
 
-    enunciado = models.CharField(max_length=256)
+    enunciado = models.CharField(max_length=556)
     imagen_enunciado= models.ImageField(upload_to='preguntas', null=True, blank=True)
 
-    alternativa_1 = models.CharField(max_length=256)
-    alternativa_2 = models.CharField(max_length=256)
-    alternativa_3 = models.CharField(max_length=256)
-    alternativa_4 = models.CharField(max_length=256)
+    alternativa_1 = models.CharField(max_length=456, null=True, blank=True)
+    alternativa_2 = models.CharField(max_length=456, null=True, blank=True)
+    alternativa_3 = models.CharField(max_length=456, null=True, blank=True)
+    alternativa_4 = models.CharField(max_length=456, null=True, blank=True)
 
     imagen_alternativa_1 = models.ImageField(upload_to='alternativas', null=True, blank=True);
     imagen_alternativa_2 = models.ImageField(upload_to='alternativas', null=True, blank=True);
