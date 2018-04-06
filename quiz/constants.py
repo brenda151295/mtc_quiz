@@ -30,6 +30,7 @@ CONVERT = {
     'Mecánica avanzada para la conducción' : 'T7',
 }
 
+SESSION_DATA = {}
 GENERATORS = {}
 EXAMEN = []
 EXAMEN_DATA = {}
