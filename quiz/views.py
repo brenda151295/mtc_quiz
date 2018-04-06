@@ -191,7 +191,7 @@ def intermedio(request):
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
         resetear_generator(request, categoria, constants.NUM_PREGUNTAS)
-        resetear_examen()
+        resetear_examen(request)
         pregunta = pregunta_random(request, categoria, constants.NUM_PREGUNTAS)
         context = {
             'numero': len(get_session_data(request)['EXAMEN']) + 1,
@@ -263,7 +263,7 @@ def avanzado(request):
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
         resetear_generator(request, categoria, constants.NUM_PREGUNTAS)
-        resetear_examen()
+        resetear_examen(request)
         get_session_data(request)['TIEMPO_EXAMEN'] = datetime.now() + timedelta(seconds=100)
         pregunta = pregunta_random(request, categoria, constants.NUM_PREGUNTAS)
         context = {
