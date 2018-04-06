@@ -247,7 +247,17 @@ def previo_avanzado(request):
     return render(request, 'previo_avanzado.html', context)
 
 
+def reset_tiempo_examen(request):
+    get_session_data(request)['TIEMPO_EXAMEN'] = (
+        datetime.now(pytz.utc) + timedelta(seconds=2400)
+    )
+
+
 def obtener_tiempo(request):
+    tiempo = get_session_data(request)['TIEMPO_EXAMEN']
+    if tiempo is None:
+        reset_tiempo_examen(request)
+
     return get_session_data(request)['TIEMPO_EXAMEN'].isoformat()
 
 
@@ -258,9 +268,7 @@ def avanzado(request):
     if request.method == 'GET':
         resetear_generator(request, categoria, constants.NUM_PREGUNTAS)
         resetear_examen(request)
-        get_session_data(request)['TIEMPO_EXAMEN'] = (
-            datetime.now(pytz.utc) + timedelta(seconds=2400)
-        )
+        reset_tiempo_examen(request)
         pregunta = pregunta_random(request, categoria, constants.NUM_PREGUNTAS)
         context = {
             'numero': len(get_session_data(request)['EXAMEN']) + 1,
