@@ -10,26 +10,23 @@ from quiz.models import Pregunta
 from quiz import constants
 
 
+def reset_session_data(hash_id):
+    constants.SESSION_DATA[hash_id] = {
+        'EXAMEN': [],
+        'EXAMEN_DATA': {},
+        'GENERATORS': {},
+        'TIEMPO_EXAMEN': None
+    }
+
+
 def get_hash(request):
     hash_id = request.session.get('hash_id', None)
     if hash_id is None:
         hash_id = str(getrandbits(128))
         request.session['hash_id'] = hash_id
-
-        constants.SESSION_DATA[hash_id] = {
-            'EXAMEN': [],
-            'EXAMEN_DATA': {},
-            'GENERATORS': {},
-            'TIEMPO_EXAMEN': None
-        }
-
-        print('!!!!!!!')
-        print(hash_id)
-        print('!!!!!!!')
-
-    print('???????')
-    print(hash_id)
-    print('???????')
+        reset_session_data(hash_id)
+    elif constants.SESSION_DATA.get(hash_id, None) is None:
+        reset_session_data(hash_id)
 
     return hash_id
 
@@ -127,10 +124,6 @@ def basico(request):
         resetear_generator(request, categoria)
         resetear_examen(request)
         pregunta = pregunta_random(request, categoria)
-
-        print('====')
-        print(get_session_data(request))
-        print('====')
 
         context = {
             'numero': len(get_session_data(request)['EXAMEN']) + 1,
