@@ -11,7 +11,7 @@
           {% csrf_token %}
           <input type="hidden" name="id" value="{{ pregunta.id }}">
           <h1 class="cover-heading">Pregunta {{ numero }}: {{pregunta.enunciado}}</h1>
-          {% if pregunta.imagen_enunciado%}9
+          {% if pregunta.imagen_enunciado%}
             <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_enunciado}}">
           {% endif %}
           <div 
