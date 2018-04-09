@@ -20,13 +20,13 @@ def reset_session_data(hash_id):
     }
 
 
-def get_hash(request):
+def get_hash(request, force_reset=False):
     hash_id = request.session.get('hash_id', None)
     if hash_id is None:
         hash_id = str(getrandbits(128))
         request.session['hash_id'] = hash_id
         reset_session_data(hash_id)
-    elif constants.SESSION_DATA.get(hash_id, None) is None:
+    elif constants.SESSION_DATA.get(hash_id, None) is None or force_reset:
         reset_session_data(hash_id)
 
     return hash_id
@@ -84,18 +84,13 @@ def resetear_generator(request, categoria, limite=None):
     )
 
 
-def resetear(request, name, default):
-    hash_id = get_hash(request)
-    constants.SESSION_DATA[hash_id][name] = default
+def resetear(request):
+    get_hash(request, force_reset=True)
 
 
 def get_session_data(request):
     hash_id = get_hash(request)
     return constants.SESSION_DATA[hash_id]
-
-
-def resetear_examen(request):
-    resetear(request, 'EXAMEN', [])
 
 
 def guardar_pregunta(request, pregunta, alternativa_correcta, alternativa_seleccionada):
@@ -123,7 +118,7 @@ def basico(request):
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
         resetear_generator(request, categoria)
-        resetear_examen(request)
+        resetear(request)
         pregunta = pregunta_random(request, categoria)
 
         context = {
@@ -185,7 +180,7 @@ def intermedio(request):
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
         resetear_generator(request, categoria, constants.NUM_PREGUNTAS)
-        resetear_examen(request)
+        resetear(request)
         pregunta = pregunta_random(request, categoria, constants.NUM_PREGUNTAS)
         context = {
             'numero': len(get_session_data(request)['EXAMEN']) + 1,
@@ -267,7 +262,7 @@ def avanzado(request):
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
         resetear_generator(request, categoria, constants.NUM_PREGUNTAS)
-        resetear_examen(request)
+        resetear(request)
         reset_tiempo_examen(request)
         pregunta = pregunta_random(request, categoria, constants.NUM_PREGUNTAS)
         context = {
