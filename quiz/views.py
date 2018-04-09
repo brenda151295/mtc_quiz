@@ -1,6 +1,6 @@
 from random import getrandbits, shuffle
 from datetime import datetime
-from datetime import timedelta, timezone
+from datetime import timedelta
 from collections import Counter
 
 import pytz
