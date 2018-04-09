@@ -1,1 +1,1 @@
-web: gunicorn mtc_quiz.wsgi
+web: gunicorn -w 1 mtc_quiz.wsgi

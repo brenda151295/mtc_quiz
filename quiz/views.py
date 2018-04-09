@@ -40,6 +40,7 @@ def home(request):
 
 def levels(request):
     context = {'categoria': request.GET.get('categoria', 'AI')}
+    resetear(request)
 
     return render(request, 'levels.html', context)
 
