@@ -190,7 +190,7 @@ def intermedio(request):
         }
     else:
         siguiente = request.POST.get('siguiente', None)
-        if siguiente is None:
+        if siguiente is None and len(get_session_data(request)['EXAMEN'])<=constants.NUM_PREGUNTAS:
             id_pregunta = request.POST.get('id')
             alternativa_seleccionada = request.POST.get('alternativa')
             pregunta = get_object_or_404(Pregunta, pk=id_pregunta)
