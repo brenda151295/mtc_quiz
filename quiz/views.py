@@ -9,6 +9,7 @@ from django.shortcuts import render, get_object_or_404
 
 from quiz.models import Pregunta
 from quiz import constants
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 def reset_session_data(hash_id):
@@ -32,12 +33,13 @@ def get_hash(request, force_reset=False):
     return hash_id
 
 
+@staff_member_required
 def home(request):
     context = {'latest_question_list': None}
 
     return render(request, 'home.html', context)
 
-
+@staff_member_required
 def levels(request):
     context = {'categoria': request.GET.get('categoria', 'AI')}
     resetear(request)
@@ -115,6 +117,7 @@ def guardar_data(request, id_pregunta):
     get_session_data(request)['EXAMEN_DATA'][id_pregunta] = counter + 1
 
 
+@staff_member_required
 def basico(request):
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
@@ -177,6 +180,7 @@ def obtener_puntaje(request):
     return (num_correctas, num_incorrectas)
 
 
+@staff_member_required
 def intermedio(request):
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
@@ -257,6 +261,7 @@ def obtener_tiempo(request):
     return get_session_data(request)['TIEMPO_EXAMEN'].isoformat()
 
 
+@staff_member_required
 def avanzado(request):
     # FIXME: cuando se caba el tiempo no da resultados
 
@@ -308,6 +313,7 @@ def avanzado(request):
     return render(request, 'avanzado.html', context)
 
 
+@staff_member_required
 def estadisticas(request):
     puntaje_correcto, puntaje_incorrecto = obtener_puntaje(request)
     aprobar = puntaje_correcto >= constants.NUM_PREGUNTAS_APROBAR
