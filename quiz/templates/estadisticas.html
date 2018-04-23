@@ -26,6 +26,9 @@
 		      <th scope="col">No Acertadas</th>
 		      <th scope="col">Preguntas respondidas</th>
 		      <th scope="col">Preguntas no respondidas</th>
+		      {% if tiempo %}
+		      	<th scope="col">Tiempo</th>
+		      {% endif %}
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -34,6 +37,9 @@
 			  <td>{{ puntaje_incorrecto }}</td>
 			  <td>{{ preguntas_respondidas }}</td>
 			  <td>{{ preguntas_no_respondidas }}</td>
+			  {% if tiempo %}
+			  	<td>{{ tiempo }}</td>
+			  {% endif %}
 			</tr>
 		   </tbody>
 		</table>  

@@ -9,7 +9,6 @@ from django.shortcuts import render, get_object_or_404
 
 from quiz.models import Pregunta
 from quiz import constants
-from django.contrib.admin.views.decorators import staff_member_required
 
 
 def reset_session_data(hash_id):
@@ -17,7 +16,8 @@ def reset_session_data(hash_id):
         'EXAMEN': [],
         'EXAMEN_DATA': {},
         'GENERATORS': {},
-        'TIEMPO_EXAMEN': None
+        'TIEMPO_EXAMEN': None,
+        'TIEMPO_EXAMEN_INICIO': None,
     }
 
 
@@ -33,13 +33,12 @@ def get_hash(request, force_reset=False):
     return hash_id
 
 
-@staff_member_required
 def home(request):
     context = {'latest_question_list': None}
 
     return render(request, 'home.html', context)
 
-@staff_member_required
+
 def levels(request):
     context = {'categoria': request.GET.get('categoria', 'AI')}
     resetear(request)
@@ -117,7 +116,6 @@ def guardar_data(request, id_pregunta):
     get_session_data(request)['EXAMEN_DATA'][id_pregunta] = counter + 1
 
 
-@staff_member_required
 def basico(request):
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
@@ -180,7 +178,25 @@ def obtener_puntaje(request):
     return (num_correctas, num_incorrectas)
 
 
-@staff_member_required
+def reset_tiempo_examen_inicio(request):
+    get_session_data(request)['TIEMPO_EXAMEN_INICIO'] = (
+        datetime.now(pytz.utc)
+    )
+
+
+def obtener_tiempo_inicio(request):
+    tiempo = get_session_data(request)['TIEMPO_EXAMEN_INICIO']
+    if tiempo is None:
+        reset_tiempo_examen_inicio(request)
+
+    return get_session_data(request)['TIEMPO_EXAMEN_INICIO'].isoformat()
+
+
+def obtener_tiempo_transcurrido(request):
+    seconds = (datetime.now(pytz.utc) - get_session_data(request)['TIEMPO_EXAMEN_INICIO']).seconds
+    return str(int(seconds / 60)).zfill(2) + ':' + str(seconds % 60).zfill(2)
+
+
 def intermedio(request):
     categoria = request.GET.get('categoria', 'AI')
     if request.method == 'GET':
@@ -190,7 +206,8 @@ def intermedio(request):
         context = {
             'numero': len(get_session_data(request)['EXAMEN']) + 1,
             'categoria': categoria,
-            'pregunta': pregunta
+            'pregunta': pregunta,
+            'tiempo': obtener_tiempo_inicio(request)
         }
     else:
         siguiente = request.POST.get('siguiente', None)
@@ -212,6 +229,7 @@ def intermedio(request):
                 'pregunta': pregunta,
                 'respondida': True,
                 'alternativa_seleccionada': alternativa_seleccionada,
+                'tiempo': obtener_tiempo_inicio(request)
             }
         else:
             pregunta = pregunta_random(request, categoria, constants.NUM_PREGUNTAS)
@@ -226,14 +244,16 @@ def intermedio(request):
                     'preguntas_respondidas': len(get_session_data(request)['EXAMEN']),
                     'preguntas_no_respondidas': (
                         constants.NUM_PREGUNTAS - len(get_session_data(request)['EXAMEN'])),
-                    'aprobo': aprobar
+                    'aprobo': aprobar,
+                    'tiempo': obtener_tiempo_transcurrido(request),
                 }
                 return render(request, 'estadisticas.html', context)
             context = {
                 'numero': len(get_session_data(request)['EXAMEN']) + 1,
                 'categoria': categoria,
                 'pregunta': pregunta,
-                'respondida': False
+                'respondida': False,
+                'tiempo': obtener_tiempo_inicio(request),
             }
 
     return render(request, 'intermedio.html', context)
@@ -261,7 +281,6 @@ def obtener_tiempo(request):
     return get_session_data(request)['TIEMPO_EXAMEN'].isoformat()
 
 
-@staff_member_required
 def avanzado(request):
     # FIXME: cuando se caba el tiempo no da resultados
 
@@ -306,14 +325,13 @@ def avanzado(request):
                 'preguntas_respondidas': len(get_session_data(request)['EXAMEN']),
                 'preguntas_no_respondidas': (
                     constants.NUM_PREGUNTAS - len(get_session_data(request)['EXAMEN'])),
-                'aprobo': aprobar
+                'aprobo': aprobar,
             }
             return render(request, 'estadisticas.html', context)
 
     return render(request, 'avanzado.html', context)
 
 
-@staff_member_required
 def estadisticas(request):
     puntaje_correcto, puntaje_incorrecto = obtener_puntaje(request)
     aprobar = puntaje_correcto >= constants.NUM_PREGUNTAS_APROBAR
