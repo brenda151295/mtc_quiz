@@ -1,13 +1,13 @@
   {% extends 'base.html' %}
 {% block 'body' %}
 <div class="clock">
-<p id="clock">-:-</p>
+<p id="clock">-:<-/p>
 </div>
 <main role="main" class="inner cover" id="body">
   <div class="container pregunta-container">
     <div class="row">
       <div class="col-sm-8 offset-sm-2">
-        <form id="avanzado_form" class = "question" method="POST" action="{% url 'avanzado'%}?categoria={{categoria}}" novalidate>
+        <form id="avanzado_form" class = "question" method="POST" action="{% url 'avanzado'%}?categoria={{categoria}}">
           {% csrf_token %}
           <input type="hidden" name="id" value="{{ pregunta.id }}">
           <h1 class="cover-heading">Pregunta {{ numero }}: {{pregunta.enunciado}}</h1>
@@ -78,13 +78,13 @@
           <div 
             {% if alternativa_correcta == "4" %}
               class="form-check is_correct">
-              <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" checked="true">
+              <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" checked="true" required />
             {% elif alternativa_seleccionada == "4" %}
               class="form-check is_incorrect">
-              <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4">
+              <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" required />
             {% else %}
               class="form-check">
-              <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4">
+              <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" required />
             {% endif%}
               <label class = "form-check-label" for="radio4"><span style = "padding-right:10px; font-weight:bold">D.</span>
                 {% if pregunta.imagen_alternativa_4 %}
@@ -94,6 +94,8 @@
                 {% endif %}
               </label>
           </div>
+            <input type="hidden" name="siguiente" value="{{ pregunta.id }}">
+            <input class="btn btn-primary btn-block" type="submit" value="Siguiente">
         </form>
     </div>
   </div>  
@@ -106,9 +108,6 @@
     <script type="text/javascript">
       $(function() {
         var TIEMPO = new Date("{{ tiempo }}");
-        $('#avanzado_form input').on('change', function() {
-          $('#avanzado_form').submit();
-        });
         var myVar = setInterval(myTimer, 1000);
         myTimer();
         function myTimer() {
