@@ -29,7 +29,7 @@
           <div 
             {% if alternativa_correcta == "1" %}
               class="radio radio-primary form-check is_correct">
-              <input class = "form-check-input" value="1" name="alternativa" type="radio" id="radio1" checked="true">
+              <input class = "alternativa-a form-check-input" value="1" name="alternativa" type="radio" id="radio1" checked="true">
             {% elif alternativa_seleccionada == "1" %}
               class="radio radio-primary form-check is_incorrect">
               <input class = "alternativa-a form-check-input" value="1" name="alternativa" type="radio" id="radio1" >
@@ -49,7 +49,7 @@
           <div            
             {% if alternativa_correcta == "2" %}
               class="radio radio-primary form-check is_correct">
-              <input class = "form-check-input" value="2" name="alternativa" type="radio" id="radio2" checked="true">
+              <input class = "alternativa-b form-check-input" value="2" name="alternativa" type="radio" id="radio2" checked="true">
             {% elif alternativa_seleccionada == "2" %}
               class="radio radio-primary form-check is_incorrect">
               <input class = "alternativa-b form-check-input" value="2" name="alternativa" type="radio" id="radio2">
@@ -69,7 +69,7 @@
           <div 
             {% if alternativa_correcta == "3" %}
               class="radio radio-primary form-check is_correct">
-              <input class = "form-check-input" value="3" name="alternativa" type="radio" id="radio3" checked="true">
+              <input class = "alternativa-c form-check-input" value="3" name="alternativa" type="radio" id="radio3" checked="true">
             {% elif alternativa_seleccionada == "3" %}
               class="radio radio-primary form-check is_incorrect">
               <input class = "alternativa-c form-check-input" value="3" name="alternativa" type="radio" id="radio3">
@@ -90,7 +90,7 @@
           <div 
             {% if alternativa_correcta == "4" %}
               class="radio radio-primary form-check is_correct">
-              <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" checked="true">
+              <input class = "alternativa-d form-check-input" value="4" name="alternativa" type="radio" id="radio4" checked="true">
             {% elif alternativa_seleccionada == "4" %}
               class="radio radio-primary form-check is_incorrect">
               <input class = "alternativa-d form-check-input" value="4" name="alternativa" type="radio" id="radio4">
@@ -146,6 +146,15 @@
             var reloj = minutos + ":" + segundos;
             document.getElementById("clock").innerHTML = reloj;
         }
+      });
+      $('#intermedio-form').submit(function(){
+          if (($(".alternativa-a").is(":checked")) || ($(".alternativa-b").is(":checked")) || ($(".alternativa-c").is(":checked")) || ($(".alternativa-d").is(":checked"))){
+            return true;
+          }
+          else {
+            alert('Debe elegir una alternativa.');
+            return false;
+          }
       });
     $(document).keypress(function(event) {
       if ((event.charCode == 65) || (event.charCode == 97)){
