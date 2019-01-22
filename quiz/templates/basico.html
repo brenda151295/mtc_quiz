@@ -16,7 +16,7 @@
     <div class="container pregunta-container">
       <div class="row">
         <div class="col-sm-8 offset-sm-2">
-          <form class = "question" method="POST" action="{% url 'basico'%}?categoria={{categoria}}" novalidate>
+          <form id="basic-form" class = "question" method="POST" action="{% url 'basico'%}?categoria={{categoria}}" novalidate>
             {% csrf_token %}
             <input type="hidden" name="id" value="{{ pregunta.id }}">
             <h1 class="cover-heading">Pregunta {{numero}}: {{pregunta.enunciado}}</h1>
@@ -29,9 +29,9 @@
                 <input class = "form-check-input" value="1" name="alternativa" type="radio" id="radio1" checked="true">
               {% else %}
                 class="radio radio-primary form-check"  >
-                <input class = "form-check-input" value="1" name="alternativa" type="radio" id="radio1">
+                <input class = "alternativa-a form-check-input" value="1" name="alternativa" type="radio" id="radio1" required>
               {% endif%}
-              <label class = "form-check-label" for="radio1">
+              <label class = "form-check-label" for="radio1"><span style = "padding-right:10px; font-weight:bold">A.</span>
                 {% if pregunta.imagen_alternativa_1 %}
                   <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_alternativa_1}}">
                 {% else %}
@@ -46,9 +46,9 @@
                 <input class = "form-check-input" value="2" name="alternativa" type="radio" id="radio2" checked="true">
               {% else %}
                 class="radio radio-primary form-check">
-                <input class = "form-check-input" value="2" name="alternativa" type="radio" id="radio2">
+                <input class = "alternativa-b form-check-input" value="2" name="alternativa" type="radio" id="radio2">
               {% endif%}
-                <label class = "form-check-label" for="radio2">
+                <label class = "form-check-label" for="radio2"><span style = "padding-right:10px; font-weight:bold">B.</span>
                   {% if pregunta.imagen_alternativa_2 %}
                     <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_alternativa_2}}">
                   {% else %}
@@ -63,10 +63,10 @@
                 <input class = "form-check-input" value="3" name="alternativa" type="radio" id="radio3" checked="true">
               {% else %}
                 class="radio radio-primary form-check">
-                <input class = "form-check-input" value="3" name="alternativa" type="radio" id="radio3" >
+                <input class = "alternativa-c form-check-input" value="3" name="alternativa" type="radio" id="radio3" >
               {% endif%}
                 
-                <label class = "form-check-label" for="radio3">
+                <label class = "form-check-label" for="radio3"><span style = "padding-right:10px; font-weight:bold">C.</span>
                   {% if pregunta.imagen_alternativa_3 %}
                     <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_alternativa_3}}">
                   {% else %}
@@ -82,9 +82,9 @@
                 <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" checked="true">
               {% else %}
                 class="radio radio-primary   form-check">
-                <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" >
+                <input class = "alternativa-d form-check-input" value="4" name="alternativa" type="radio" id="radio4" >
               {% endif%}
-                <label class = "form-check-label" for="radio4">
+                <label class = "form-check-label" for="radio4"><span style = "padding-right:10px; font-weight:bold">D.</span>
                   {% if pregunta.imagen_alternativa_4 %}
                     <img class="rounded mx-auto d-block" src="/media/{{pregunta.imagen_alternativa_4}}">
                   {% else %}
@@ -124,7 +124,7 @@
       $(".alternativa-d").prop('checked',true);
     }
     else if (event.charCode == 13){
-      $('#intermedio-form').submit();
+      $('#basic-form').submit();
     }
   });
 
