@@ -16,13 +16,13 @@
           {% endif %}
           <div 
             {% if alternativa_correcta == "1" %}
-              class="form-check is_correct">
+              class="radio radio-primary form-check is_correct">
               <input class = "form-check-input" value="1" name="alternativa" type="radio" id="radio1" checked="true">
             {% elif alternativa_seleccionada == "1" %}
-              class="form-check is_incorrect">
+              class="radio radio-primary form-check is_incorrect">
               <input class = "form-check-input" value="1" name="alternativa" type="radio" id="radio1">
             {% else %}
-              class="form-check">
+              class="radio radio-primary form-check">
               <input class = "form-check-input" value="1" name="alternativa" type="radio" id="radio1">
             {% endif%}
             <label class = "form-check-label" for="radio1"> <span style = "padding-right:10px; font-weight:bold">A.</span>
@@ -36,13 +36,13 @@
           
           <div            
             {% if alternativa_correcta == "2" %}
-              class="form-check is_correct">
+              class="radio radio-primary form-check is_correct">
               <input class = "form-check-input" value="2" name="alternativa" type="radio" id="radio2" checked="true">
             {% elif alternativa_seleccionada == "2" %}
-              class="form-check is_incorrect">
+              class="radio radio-primary form-check is_incorrect">
               <input class = "form-check-input" value="2" name="alternativa" type="radio" id="radio2">
             {% else %}
-              class="form-check">
+              class="radio radio-primary form-check">
               <input class = "form-check-input" value="2" name="alternativa" type="radio" id="radio2">
             {% endif%}
               <label class = "form-check-label" for="radio2"><span style = "padding-right:10px; font-weight:bold">B.</span>
@@ -56,13 +56,13 @@
 
           <div 
             {% if alternativa_correcta == "3" %}
-              class="form-check is_correct">
+              class="radio radio-primary form-check is_correct">
               <input class = "form-check-input" value="3" name="alternativa" type="radio" id="radio3" checked="true">
             {% elif alternativa_seleccionada == "3" %}
-              class="form-check is_incorrect">
+              class="radio radio-primary form-check is_incorrect">
               <input class = "form-check-input" value="3" name="alternativa" type="radio" id="radio3">
             {% else %}
-              class="form-check">
+              class="radio radio-primary form-check">
               <input class = "form-check-input" value="3" name="alternativa" type="radio" id="radio3">
             {% endif%}
               
@@ -77,13 +77,13 @@
 
           <div 
             {% if alternativa_correcta == "4" %}
-              class="form-check is_correct">
+              class="radio radio-primary form-check is_correct">
               <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" checked="true">
             {% elif alternativa_seleccionada == "4" %}
-              class="form-check is_incorrect">
+              class="radio radio-primary form-check is_incorrect">
               <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4">
             {% else %}
-              class="form-check">
+              class="radio radio-primary form-check">
               <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4">
             {% endif%}
               <label class = "form-check-label" for="radio4"><span style = "padding-right:10px; font-weight:bold">D.</span>
@@ -94,6 +94,13 @@
                 {% endif %}
               </label>
           </div>
+          <div class="row boton-inferior">
+              <div class="col-sm"></div>
+              <div class="col-sm">
+                <input class="btn btn-primary btn-block" type="submit" value="Siguiente">
+              </div>
+              <div class="col-sm"></div>
+            </div>
         </form>
     </div>
   </div>  
@@ -107,7 +114,7 @@
       $(function() {
         var TIEMPO = new Date("{{ tiempo }}");
         $('#avanzado_form input').on('change', function() {
-          $('#avanzado_form').submit();
+          //$('#avanzado_form').submit();
         });
         var myVar = setInterval(myTimer, 1000);
         myTimer();
@@ -131,6 +138,24 @@
             document.getElementById("clock").innerHTML = reloj;
         }
       });
+      $(document).keypress(function(event) {
+        if ((event.charCode == 65) || (event.charCode == 97)){
+          $(".alternativa-a").prop('checked',true);
+        }
+        else if ((event.charCode == 66) || (event.charCode == 98)){
+          $(".alternativa-b").prop('checked',true);
+        }
+        else if ((event.charCode == 67) || (event.charCode == 99)){
+          $(".alternativa-c").prop('checked',true);
+        }
+        else if ((event.charCode == 68) || (event.charCode == 100)){
+          $(".alternativa-d").prop('checked',true);
+        }
+        else if (event.charCode == 13){
+          $('#intermedio-form').submit();
+      }
+    });
+
 
     </script>
 

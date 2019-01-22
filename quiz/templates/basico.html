@@ -25,10 +25,10 @@
             {% endif %}
             <div 
               {% if es_correcta and alternativa_correcta == "1" %}
-                class="form-check is_correct">
+                class="radio radio-primary form-check is_correct">
                 <input class = "form-check-input" value="1" name="alternativa" type="radio" id="radio1" checked="true">
               {% else %}
-                class="form-check"  >
+                class="radio radio-primary form-check"  >
                 <input class = "form-check-input" value="1" name="alternativa" type="radio" id="radio1">
               {% endif%}
               <label class = "form-check-label" for="radio1">
@@ -42,10 +42,10 @@
             
             <div            
               {% if es_correcta and alternativa_correcta == "2" %}
-                class="form-check is_correct">
+                class="radio radio-primary form-check is_correct">
                 <input class = "form-check-input" value="2" name="alternativa" type="radio" id="radio2" checked="true">
               {% else %}
-                class="form-check">
+                class="radio radio-primary form-check">
                 <input class = "form-check-input" value="2" name="alternativa" type="radio" id="radio2">
               {% endif%}
                 <label class = "form-check-label" for="radio2">
@@ -59,10 +59,10 @@
 
             <div 
               {% if es_correcta and alternativa_correcta == "3" %}
-                class="form-check is_correct">
+                class="radio radio-primary form-check is_correct">
                 <input class = "form-check-input" value="3" name="alternativa" type="radio" id="radio3" checked="true">
               {% else %}
-                class="form-check">
+                class="radio radio-primary form-check">
                 <input class = "form-check-input" value="3" name="alternativa" type="radio" id="radio3" >
               {% endif%}
                 
@@ -78,10 +78,10 @@
 
             <div 
               {% if es_correcta and alternativa_correcta == "4" %}
-                class="form-check is_correct">
+                class="radio radio-primary form-check is_correct">
                 <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" checked="true">
               {% else %}
-                class="form-check">
+                class="radio radio-primary   form-check">
                 <input class = "form-check-input" value="4" name="alternativa" type="radio" id="radio4" >
               {% endif%}
                 <label class = "form-check-label" for="radio4">
@@ -92,15 +92,41 @@
                   {% endif %}
                 </label>
             </div>
-            {% if es_correcta %}
-              <input type="hidden" name="siguiente" value="{{ pregunta.id }}">
-              <input class="btn btn-primary btn-block" type="submit" value="Siguiente">
-            {% else %}
-              <input class="btn btn-primary btn-block" type="submit" value="Corregir">
-            {% endif %}
+            <div class="row boton-inferior">
+              <div class="col-sm"></div>
+              <div class="col-sm">
+                {% if es_correcta %}
+                    <input type="hidden" name="siguiente" value="{{ pregunta.id }}">
+                    <input class="btn btn-primary btn-block" type="submit" value="Siguiente">
+                {% else %}
+                  <input class="btn btn-primary btn-block" type="submit" value="Corregir">
+                {% endif %}
+              </div>
+              <div class="col-sm"></div>
+            </div>
           </form>
         </div>
       </div>
     </div>
   </main>
+  <script type="text/javascript">
+  $(document).keypress(function(event) {
+    if ((event.charCode == 65) || (event.charCode == 97)){
+      $(".alternativa-a").prop('checked',true);
+    }
+    else if ((event.charCode == 66) || (event.charCode == 98)){
+      $(".alternativa-b").prop('checked',true);
+    }
+    else if ((event.charCode == 67) || (event.charCode == 99)){
+      $(".alternativa-c").prop('checked',true);
+    }
+    else if ((event.charCode == 68) || (event.charCode == 100)){
+      $(".alternativa-d").prop('checked',true);
+    }
+    else if (event.charCode == 13){
+      $('#intermedio-form').submit();
+    }
+  });
+
+  </script>
 {% endblock %}

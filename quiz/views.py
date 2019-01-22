@@ -262,6 +262,16 @@ def intermedio(request):
 
     return render(request, 'intermedio.html', context)
 
+
+@staff_member_required
+def previo_intermedio(request):
+    categoria = request.GET.get('categoria', 'AI')
+    context = {
+        'categoria': categoria,
+    }
+    return render(request, 'previo_intermedio.html', context)
+
+
 @staff_member_required
 def previo_avanzado(request):
     categoria = request.GET.get('categoria', 'AI')
