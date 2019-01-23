@@ -5,3 +5,4 @@ xlrd==1.1.0
 XlsxWriter==1.0.2
 django-heroku==0.3.1
 django-import-export==1.0.0
+uwsgi
