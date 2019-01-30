@@ -137,13 +137,16 @@
             var total_time = Math.ceil(diferencia / 1000);
             var minutos = Math.floor(total_time/60);
             var segundos = total_time%60;
-            if (segundos < 0) {
-              segundos = 0;
-            }
             if (minutos<10){
+              if (minutos < 0) {
+                minutos = 0;
+              }
               minutos = "0" + minutos;
             }
             if(segundos<10){
+              if (segundos < 0) {
+                segundos = 0;
+              }
               segundos = "0" + segundos;
             }
             var reloj = minutos + ":" + segundos;
